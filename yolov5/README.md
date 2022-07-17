@@ -1,3 +1,12 @@
+opencv-dnn安装：
+参考：
+https://blog.csdn.net/m0_50117360/article/details/108027416
+https://blog.csdn.net/weixin_41896508/article/details/80795239
+
+CMakeLists.txt：
+编译找不到包的时候设置路径：set(OpenCV_DIR XXX)
+
+
 # yolov5
 
 The Pytorch implementation is [ultralytics/yolov5](https://github.com/ultralytics/yolov5).

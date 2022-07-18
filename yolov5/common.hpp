@@ -11,7 +11,7 @@
 
 using namespace nvinfer1;
 
-根据bbox坐标获取图像区域
+// get the area of image related to bbox, 根据bbox坐标获取图像区域
 cv::Rect get_rect(cv::Mat& img, float bbox[4]) {
     float l, r, t, b;
     float r_w = Yolo::INPUT_W / (img.cols * 1.0);
@@ -38,6 +38,7 @@ cv::Rect get_rect(cv::Mat& img, float bbox[4]) {
     return cv::Rect(round(l), round(t), round(r - l), round(b - t));
 }
 
+// compute the iou between 2 boxes
 float iou(float lbox[4], float rbox[4]) {
     float interBox[] = {
         (std::max)(lbox[0] - lbox[2] / 2.f , rbox[0] - rbox[2] / 2.f), //left
@@ -53,10 +54,12 @@ float iou(float lbox[4], float rbox[4]) {
     return interBoxS / (lbox[2] * lbox[3] + rbox[2] * rbox[3] - interBoxS);
 }
 
+// compare the confidence of detection a, b
 bool cmp(const Yolo::Detection& a, const Yolo::Detection& b) {
     return a.conf > b.conf;
 }
 
+// nms
 void nms(std::vector<Yolo::Detection>& res, float *output, float conf_thresh, float nms_thresh = 0.5) {
     int det_size = sizeof(Yolo::Detection) / sizeof(float);
     std::map<float, std::vector<Yolo::Detection>> m;
@@ -84,6 +87,7 @@ void nms(std::vector<Yolo::Detection>& res, float *output, float conf_thresh, fl
     }
 }
 
+// transform string in wts to TensorRT weights,return a weightMap
 // TensorRT weight files have a simple space delimited format:
 // [type] [size] <data x size in hex>
 std::map<std::string, Weights> loadWeights(const std::string file) {
@@ -124,6 +128,7 @@ std::map<std::string, Weights> loadWeights(const std::string file) {
     return weightMap;
 }
 
+// addBatchNorm2d
 IScaleLayer* addBatchNorm2d(INetworkDefinition *network, std::map<std::string, Weights>& weightMap, ITensor& input, std::string lname, float eps) {
     float *gamma = (float*)weightMap[lname + ".weight"].values;
     float *beta = (float*)weightMap[lname + ".bias"].values;
@@ -156,8 +161,6 @@ IScaleLayer* addBatchNorm2d(INetworkDefinition *network, std::map<std::string, W
     assert(scale_1);
     return scale_1;
 }
-
-
 
 ILayer* convBlock(INetworkDefinition *network, std::map<std::string, Weights>& weightMap, ITensor& input, int outch, int ksize, int s, int g, std::string lname) {
     Weights emptywts{ DataType::kFLOAT, nullptr, 0 };

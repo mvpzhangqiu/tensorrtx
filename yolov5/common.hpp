@@ -11,6 +11,7 @@
 
 using namespace nvinfer1;
 
+根据bbox坐标获取图像区域
 cv::Rect get_rect(cv::Mat& img, float bbox[4]) {
     float l, r, t, b;
     float r_w = Yolo::INPUT_W / (img.cols * 1.0);

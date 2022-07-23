@@ -1,3 +1,7 @@
+looser throw specifier for ‘virtual void Logger::log(nvinfer1::ILogger::Severity, const char*)
+https://blog.csdn.net/jacke121/article/details/125580185
+
+
 # tensorrt-unet
 This is a TensorRT version Unet, inspired by [tensorrtx](https://github.com/wang-xinyu/tensorrtx) and [pytorch-unet](https://github.com/milesial/Pytorch-UNet).<br>
 You can generate TensorRT engine file using this script and customize some params and network structure based on network you trained (FP32/16 precision, input size, different conv, activation function...)<br>

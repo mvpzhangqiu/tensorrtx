@@ -6,7 +6,10 @@ https://blog.csdn.net/weixin_41896508/article/details/80795239
 CMakeLists.txt：
 编译找不到包的时候设置路径：set(OpenCV_DIR XXX)
 
+剪枝模型tensorRT转换：
+count of 4644 weights in kernel, but kernel dimensions (3,3) with 12 input channels, 48 output channels and 1 groups were specified. Expected Weights count is 12 * 3*3 * 48 / 1 = 5184
 
+是否能先转tensorRT再进行剪枝？应该不行，转tensorRT后engine无法生成字典形式。
 
 # yolov5
 
